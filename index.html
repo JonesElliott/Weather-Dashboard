@@ -1,13 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap Link -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+      crossorigin="anonymous"
+    />
+    <!-- CSS Link -->
+    <link rel="stylesheet" href="./style.css" />
+    <!-- Font Awesome Link -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
     <title>Weather Dashboard</title>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- Page Header -->
+    <header class="text-center bg-dark text-white">
+      <h1>Weather Dashboard</h1>
+    </header>
+
+    <div class="row">
+      <!-- City Search Area -->
+      <div id="search-div" class="col-md-2 mt-3 ml-5">
+        <form id="search-form">
+          <div>
+            <label for="city-search">Search for a City:</label>
+          </div>
+          <div>
+            <input type="text" class="rounded border-light"/>
+            <button id="search-button" class="rounded-circle border-light bg-primary"><i class="fas fa-search"></i></button>
+          </div>
+          <div id="search-recent"></div>
+        </form>
+      </div>
+
+      <!-- Weather Results -->
+      <div id="weather-div" class="col-md-8 mt-3">
+        <div id="weather-today" class="border border-dark"></div>
+        <div id="weather-5-day" class="row"><p>5-Day Forcast:</p></div>
+      </div>
+    </div>
+
+    <!-- Link for JavaScript -->
     <script src="./script.js"></script>
-</body>
+  </body>
 </html>
