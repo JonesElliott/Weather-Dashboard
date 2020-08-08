@@ -35,7 +35,7 @@
             <label for="city-search">Search for a City:</label>
           </div>
           <div class="">
-            <input type="text" class="rounded border-light" />
+            <input type="text" id="search-input" class="rounded border-light" />
             <button
               id="search-button"
               class="rounded-circle border-primary bg-primary text-white fas fa-search"></button>
@@ -54,31 +54,6 @@
     <!-- Link for JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./script.js"></script>
-    <!-- <script type="text/javascript">
-    $(document).ready(function () {
-      // Open Weather API Key 4471d8a288b1158a16e4a8e8f56a3e35
-
-      var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
-
-      var cityName = "San Diego";
-      var zipCode = "92021";
-      var stateCode = "CA";
-      var countryCode = "US";
-
-      var queryURL = "api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + zipCode + "," + stateCode + "," + countryCode + "&appid=" + apiKey;
-
-      $("#search-button").on("click", function () {
-        event.preventDefault();
-        event.stopPropagation();
-        console.log("click");
-        $.ajax({
-            url: queryURL,
-            method: "GET",
-        }).then(function (response) {
-            console.log(response);
-        });
-      });
-    });
     </script> -->
   </body>
 </html>
