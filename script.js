@@ -30,6 +30,7 @@ $('#search-button').on('click', function() {
         // Display current windspeed
         $('#wind-output').text('Wind Speed: ' + response.wind.speed + ' MPH');
 
+        // Get the lat & lon values
         var cityLat  = response.coord.lat;
         var cityLon  = response.coord.lon;
 
@@ -41,7 +42,21 @@ $('#search-button').on('click', function() {
             method: "GET",
         }).then(function (response) {
             console.log(response);
-            // $('#uv0output').text('UV Index: ' + );
+            var uvIndex = response.value;
+            var uvOutput = $('#uv-output')
+            uvOutput.text(uvIndex);
+            // Change background color based on UV Index
+            if (uvIndex < 3) {
+                uvOutput.attr('style', 'background-color: green;')
+            } else if (uvIndex < 6) {
+                uvOutput.attr('style', 'background-color: yellow;')
+            } else if (uvIndex < 8) {
+                uvOutput.attr('style', 'background-color: orange;')
+            } else if (uvIndex < 11) {
+                uvOutput.attr('style', 'background-color: red;')
+            } else {
+                uvOutput.attr('style', 'background-color: purple;')
+            }
         });
     });
 });
