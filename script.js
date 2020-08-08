@@ -1,12 +1,12 @@
 // Open Weather API Key 4471d8a288b1158a16e4a8e8f56a3e35
-
+var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
 // Generate Weather based on user's location when they access the page
 var options = {
     enableHighAccuracy: true,
     timeout: 5000,
     maximumAge: 0
 };
-  
+// If user's location is successfully recieved
 function success(pos) {
     var crd = pos.coords;
 
@@ -145,8 +145,8 @@ function renderWeather(response) {
 // Auto Render the weather
 function autoRenderWeather(response) {
     console.log(response);
-    var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
     var userCity = response.name;
+    $('input').attr('placeholder', userCity);
     // Display city name, date, & weather icon
     $('#city-output').text(userCity + " (" + moment().format('M/D/YYYY) '));
     $('#wicon').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
