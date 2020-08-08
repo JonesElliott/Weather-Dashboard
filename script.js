@@ -54,52 +54,13 @@ $('#search-button').on('click', function() {
         method: "GET",
     }).then(function (response) {
         console.log(response);
-
-        // Display city name, date, & weather icon
-        $('#city-output').text(cityName + " (" + moment().format('M/D/YYYY) '));
-        $('#wicon').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
-
-        console.log(response.main.temp);
-        // Display the current temperature
-        $('#temp-output').text('Temperature: ' + response.main.temp + String.fromCharCode(176) + "F");
-        // Display current humidity
-        $('#humidity-output').text('Humidity: ' + response.main.humidity + '%');
-        // Display current windspeed
-        $('#wind-output').text('Wind Speed: ' + response.wind.speed + ' MPH');
-
-        // Get the lat & lon values
-        var cityLat  = response.coord.lat;
-        var cityLon  = response.coord.lon;
-
-        // Building query URL to retrieve UV Index based on city searched
-        var queryUVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + cityLat + "&lon=" + cityLon;
-
-        $.ajax({
-            url: queryUVURL,
-            method: "GET",
-        }).then(function (response) {
-            console.log(response);
-            var uvIndex = response.value;
-            var uvOutput = $('#uv-output')
-            uvOutput.text(uvIndex);
-            // Change background color based on UV Index
-            if (uvIndex < 3) {
-                uvOutput.attr('style', 'background-color: green;')
-            } else if (uvIndex < 6) {
-                uvOutput.attr('style', 'background-color: yellow;')
-            } else if (uvIndex < 8) {
-                uvOutput.attr('style', 'background-color: orange;')
-            } else if (uvIndex < 11) {
-                uvOutput.attr('style', 'background-color: red;')
-            } else {
-                uvOutput.attr('style', 'background-color: purple;')
-            }
-        });
+        renderWeather(response);
     });
 });
 
 // Render the weather to the page
 function renderWeather(response) {
+    var cityName = $('#search-input').val();
     // Display city name, date, & weather icon
     $('#city-output').text(cityName + " (" + moment().format('M/D/YYYY) '));
     $('#wicon').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
