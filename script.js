@@ -35,11 +35,33 @@ function error(err) {
 // Send request for user's location
 navigator.geolocation.getCurrentPosition(success, error, options);
 
+var recentSearch = [];
+init();
+
+// Get locally stored events
+function init() {
+    var storedSearch = JSON.parse(localStorage.getItem("recentSearch"));
+    if (storedSearch !== null) {
+        recentSearch = storedSearch;
+    }
+}
+
+for (i = 0; i < recentSearch.length; i++) {
+    var recentCity = $('<h5>').attr('class', 'border bg-light text-center p-3').text(recentSearch[i]);
+    $('#search-recent').prepend(recentCity);
+}
+
 // Event listener for city search button
 $('#search-button').on('click', function() {
     event.preventDefault();
     var cityName = $('#search-input').val();
     console.log(cityName);
+
+    recentSearch.push(cityName);
+    var recentCity = $('<h5>').attr('class', 'border bg-light text-center p-3').text(cityName);
+    $('#search-recent').prepend(recentCity);
+    localStorage.setItem("recentSearch", JSON.stringify(recentSearch));
+    console.log(recentSearch);
 
     // Building the query URL
     var queryURL = "https:\\api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
@@ -48,7 +70,6 @@ $('#search-button').on('click', function() {
         url: queryURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         renderWeather(response);
     });
 });
@@ -60,7 +81,6 @@ function renderWeather(response) {
     $('#city-output').text(cityName + " (" + moment().format('M/D/YYYY) '));
     $('#wicon').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
 
-    console.log(response.main.temp);
     // Display the current temperature
     $('#temp-output').text('Temperature: ' + response.main.temp + String.fromCharCode(176) + "F");
     // Display current humidity
@@ -97,22 +117,21 @@ function renderWeather(response) {
         }
     });
 
-    var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + apiKey;
-
+    // renderForecast();
+    var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
+    $('#forecast').empty();
     $.ajax({
         url: forecastURL,
         method: "GET",
     }).then(function (response) {
         // console.log(response);
-        var nextForecast = response.list[0];
-        console.log(nextForecast);
+        var nextForecast = response.list;
         renderForecast(nextForecast);
     });
 }
 
 // Auto Render the weather
 function autoRenderWeather(response) {
-    console.log(response);
     var userCity = response.name;
     $('input').attr('placeholder', userCity);
     // Display city name, date, & weather icon
@@ -137,7 +156,6 @@ function autoRenderWeather(response) {
         url: queryUVURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         var uvIndex = response.value;
         var uvOutput = $('#uv-output')
         uvOutput.text(uvIndex);
@@ -155,39 +173,48 @@ function autoRenderWeather(response) {
         }
     });
     // renderForecast();
-    var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + userCity + "&appid=" + apiKey;
+    var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + userCity + "&units=imperial&appid=" + apiKey;
 
     $.ajax({
         url: forecastURL,
         method: "GET",
     }).then(function (response) {
         // console.log(response);
-        var nextForecast = response.list[0];
-        console.log(nextForecast);
+        var nextForecast = response.list;
         renderForecast(nextForecast);
     });
 }
 
 function renderForecast(nextForecast) {
-    console.log(nextForecast);
-    var nextIcon = 'http://openweathermap.org/img/w/' + nextForecast.weather[0].icon + '.png';
+    // $('#forecast').clear();
+    
     for (let i = 0; i < 5; i++) {
-        var newCard = $('<div>').attr('id', 'card' + i).attr('class', 'card').attr('style', 'width: 200px; height: 200px;');
+        // Get date for current day iteration
+        var forecastDate = moment().add((i + 1), 'days').format('M/D/YYYY');;
+        // Get weather icon for current day iteration
+        var nextIcon = 'http://openweathermap.org/img/w/' + nextForecast[i].weather[0].icon + '.png';
+        // Get temperature  for current day iteration
+        var nextTemp = nextForecast[i].main.temp;
+        // Get Humidity for current day iteration
+        var nextHumidtiy = nextForecast[i].main.humidity;
+
+        // Build forcast cards
+        var newCard = $('<div>').attr('id', 'card' + i).attr('class', 'card bg-primary text-white m-1').attr('style', 'width: 200px; height: 200px;');
         $('#forecast').append(newCard);
 
         var divBody = $('<div>').attr('class', 'card-body');
         newCard.append(divBody);
 
-        var headTag5 = $('<h5>').attr('class', 'card-title').text();
+        var headTag5 = $('<h5>').attr('class', 'card-title').text(forecastDate);
         divBody.append(headTag5);
 
-        var headTag6 = $('<img>').attr('src', nextIcon);
-        divBody.append(headTag6);
+        var imageTag = $('<img>').attr('src', nextIcon);
+        divBody.append(imageTag);
 
-        var tempPTag = $('<p>').attr('class', 'card-text').text('Temp: ' + String.fromCharCode(176) + "F");
+        var tempPTag = $('<p>').attr('class', 'card-text').text('Temp: ' + nextTemp + String.fromCharCode(176) + "F");
         divBody.append(tempPTag);
         
-        var humidPTag = $('<p>').attr('class', 'card-text').text('Humid: ' + "%");
+        var humidPTag = $('<p>').attr('class', 'card-text').text('Humid: ' + nextHumidtiy + "%");
         divBody.append(humidPTag);
 
     }
