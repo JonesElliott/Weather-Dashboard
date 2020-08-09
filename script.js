@@ -12,17 +12,12 @@ function success(pos) {
 
     // Get the user's coordinates
     var userLat = pos.coords.latitude;
-    console.log("My Lat: " + userLat);
-    
     var userLon = pos.coords.longitude;
-    console.log("My Lon: " + userLon);
 
     // Get the local weather based on  the user's coordinates
     var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
     //Automatically build a query URL based on user's location when site is loaded.
     var autoQueryURL = "https:\\api.openweathermap.org/data/2.5/weather?lat=" + userLat + "&lon=" + userLon + "&units=imperial&appid=" + apiKey;
-
-    console.log(autoQueryURL);
 
     $.ajax({
         url: autoQueryURL,
@@ -90,16 +85,28 @@ function renderWeather(response) {
         uvOutput.text(uvIndex);
         // Change background color based on UV Index
         if (uvIndex < 3) {
-            uvOutput.attr('style', 'background-color: green;')
+            uvOutput.attr('style', 'background-color: green;');
         } else if (uvIndex < 6) {
-            uvOutput.attr('style', 'background-color: yellow;')
+            uvOutput.attr('style', 'background-color: yellow;');
         } else if (uvIndex < 8) {
-            uvOutput.attr('style', 'background-color: orange;')
+            uvOutput.attr('style', 'background-color: orange;');
         } else if (uvIndex < 11) {
-            uvOutput.attr('style', 'background-color: red;')
+            uvOutput.attr('style', 'background-color: red;');
         } else {
-            uvOutput.attr('style', 'background-color: purple;')
+            uvOutput.attr('style', 'background-color: purple;');
         }
+    });
+
+    var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + apiKey;
+
+    $.ajax({
+        url: forecastURL,
+        method: "GET",
+    }).then(function (response) {
+        // console.log(response);
+        var nextForecast = response.list[0];
+        console.log(nextForecast);
+        renderForecast(nextForecast);
     });
 }
 
@@ -112,7 +119,6 @@ function autoRenderWeather(response) {
     $('#city-output').text(userCity + " (" + moment().format('M/D/YYYY) '));
     $('#wicon').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
 
-    console.log(response.main.temp);
     // Display the current temperature
     $('#temp-output').text('Temperature: ' + response.main.temp + String.fromCharCode(176) + "F");
     // Display current humidity
@@ -148,10 +154,23 @@ function autoRenderWeather(response) {
             uvOutput.attr('style', 'background-color: purple;')
         }
     });
-    renderForecast();
+    // renderForecast();
+    var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + userCity + "&appid=" + apiKey;
+
+    $.ajax({
+        url: forecastURL,
+        method: "GET",
+    }).then(function (response) {
+        // console.log(response);
+        var nextForecast = response.list[0];
+        console.log(nextForecast);
+        renderForecast(nextForecast);
+    });
 }
 
-function renderForecast() {
+function renderForecast(nextForecast) {
+    console.log(nextForecast);
+    var nextIcon = 'http://openweathermap.org/img/w/' + nextForecast.weather[0].icon + '.png';
     for (let i = 0; i < 5; i++) {
         var newCard = $('<div>').attr('id', 'card' + i).attr('class', 'card').attr('style', 'width: 200px; height: 200px;');
         $('#forecast').append(newCard);
@@ -159,10 +178,10 @@ function renderForecast() {
         var divBody = $('<div>').attr('class', 'card-body');
         newCard.append(divBody);
 
-        var headTag5 = $('<h5>').attr('class', 'card-title').text('City Text Goes Here');
+        var headTag5 = $('<h5>').attr('class', 'card-title').text();
         divBody.append(headTag5);
 
-        var headTag6 = $('<h6>').attr('class', 'card-subtitle mb-2 text-muted').text('Wheather Image');
+        var headTag6 = $('<img>').attr('src', nextIcon);
         divBody.append(headTag6);
 
         var tempPTag = $('<p>').attr('class', 'card-text').text('Temp: ' + String.fromCharCode(176) + "F");
