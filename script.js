@@ -148,4 +148,28 @@ function autoRenderWeather(response) {
             uvOutput.attr('style', 'background-color: purple;')
         }
     });
+    renderForecast();
+}
+
+function renderForecast() {
+    for (let i = 0; i < 5; i++) {
+        var newCard = $('<div>').attr('id', 'card' + i).attr('class', 'card').attr('style', 'width: 200px; height: 200px;');
+        $('#forecast').append(newCard);
+
+        var divBody = $('<div>').attr('class', 'card-body');
+        newCard.append(divBody);
+
+        var headTag5 = $('<h5>').attr('class', 'card-title').text('City Text Goes Here');
+        divBody.append(headTag5);
+
+        var headTag6 = $('<h6>').attr('class', 'card-subtitle mb-2 text-muted').text('Wheather Image');
+        divBody.append(headTag6);
+
+        var tempPTag = $('<p>').attr('class', 'card-text').text('Temp: ' + String.fromCharCode(176) + "F");
+        divBody.append(tempPTag);
+        
+        var humidPTag = $('<p>').attr('class', 'card-text').text('Humid: ' + "%");
+        divBody.append(humidPTag);
+
+    }
 }
