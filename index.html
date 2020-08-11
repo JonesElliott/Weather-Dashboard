@@ -21,6 +21,7 @@
     />
     <title>Weather Dashboard</title>
   </head>
+
   <body>
     <!-- Page Header -->
     <header class="text-center bg-dark text-white">
@@ -41,15 +42,15 @@
               class="form-control"
               placeholder="San Diego"
               aria-label="City Name"
-              aria-describedby="button-addon2" onkeydown="return event.key != 'Enter';"
+              aria-describedby="button-addon2"
+              onkeydown="return event.key != 'Enter';"
             />
             <div class="input-group-append">
               <button
                 class="btn btn-outline-dark bg-primary text-white fas fa-search"
                 type="button"
                 id="search-button"
-              >
-              </button>
+              ></button>
             </div>
           </div>
           <div id="search-recent"></div>
@@ -62,7 +63,7 @@
           <div class="container">
             <div class="row">
               <h1 id="city-output"></h1>
-              <img id="wicon" src="" alt="Weather Icon">
+              <img id="wicon" src="" alt="Weather Icon" />
             </div>
             <div>
               <p id="temp-output"></p>
@@ -74,7 +75,8 @@
               <p id="wind-output"></p>
             </div>
             <div class="row">
-              <p class="ml-3">UV Index:&nbsp</p><p id="uv-output" class="rounded"></p>
+              <p class="ml-3">UV Index:&nbsp</p>
+              <p id="uv-output" class="rounded"></p>
             </div>
           </div>
         </div>
@@ -89,5 +91,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./script.js"></script>
+
   </body>
+  
 </html>

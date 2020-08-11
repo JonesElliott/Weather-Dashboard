@@ -6,6 +6,7 @@ var options = {
     timeout: 5000,
     maximumAge: 0
 };
+
 // If user's location is successfully recieved
 // Get the local weather based on  the user's coordinates
 function success(pos) {
@@ -23,12 +24,11 @@ function success(pos) {
         url: autoQueryURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         autoRenderWeather(response);
     });
 }
 
-// Console log error if userlocation doesnt work
+// Load default location and console log if user location doesn't work
 function error(err) {
     // Default query request if user denies to share location
     console.Log("Geo Request Denied: Default City Loaded");
@@ -41,13 +41,10 @@ function error(err) {
     //Automatically build a query URL based on user's location when site is loaded.
     var autoQueryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + defaultLat + "&lon=" + defaultLon + "&units=imperial&appid=" + apiKey;
 
-    console.log(autoQueryURL);
-
     $.ajax({
         url: autoQueryURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         autoRenderWeather(response);
     });
 }
@@ -55,6 +52,7 @@ function error(err) {
 // Send request for user's location
 navigator.geolocation.getCurrentPosition(success, error, options);
 
+// Array to save recent searches to lcoal storage
 var recentSearch = [];
 init();
 
@@ -66,8 +64,9 @@ function init() {
     }
 }
 
+// Write locally saved data to the page
 for (i = 0; i < recentSearch.length; i++) {
-    var recentCity = $('<h5>').attr('class', 'border bg-light text-center p-3').text(recentSearch[i]);
+    var recentCity = $('<button>').attr('class', 'border bg-light text-center p-3 m-1').attr('style', 'width: 200px;').attr('id', 'recent-cities').text(recentSearch[i]);
     $('#search-recent').prepend(recentCity);
 }
 
@@ -75,30 +74,52 @@ for (i = 0; i < recentSearch.length; i++) {
 $('#search-button').on('click', function() {
     event.preventDefault();
     var cityName = $('#search-input').val();
-    console.log(cityName);
+    if (cityName === "") {
+        return;
+    }
     
+    // Add recent city to the array
     recentSearch.push(cityName);
+    // Restrains max array length to 5
     if (recentSearch.length > 5) {
-        // recentSearch.push(cityName);
         recentSearch.shift();
     }
 
+    // Empty the recently searched div to restrain it to the array length
     $('#search-recent').empty();
 
+    // Write the array to the page
     for (i = 0; i < recentSearch.length; i++) {
-        var recentCity = $('<h5>').attr('class', 'border bg-light text-center p-3').text(recentSearch[i]);
+        var recentCity = $('<button>').attr('class', 'border bg-light text-center p-3 m-1').attr('style', 'width: 200px;').attr('id', 'recent-cities').text(recentSearch[i]);
         $('#search-recent').prepend(recentCity);
     }
 
-    // var recentCity = $('<h5>').attr('class', 'border bg-light text-center p-3').text(cityName);
-    // $('#search-recent').prepend(recentCity);
+    // Save the array to local storage
     localStorage.setItem("recentSearch", JSON.stringify(recentSearch));
-    // console.log(recentSearch);
 
     // Building the query URL
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
 
-    console.log(queryURL);
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+    }).then(function (response) {
+        renderWeather(response);
+    });
+});
+
+$('button').on('click', function(event){
+    event.preventDefault();
+    var element = event.target;
+    // Catch for button use in case of site expansion - Only continues if button element has id matching specified
+    if (element.matches("#recent-cities") === false) {
+        return;
+    } else {
+    var cityName = $(this).text();
+    console.log(cityName);
+    
+    // Building the query URL
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
 
     $.ajax({
         url: queryURL,
@@ -107,11 +128,13 @@ $('#search-button').on('click', function() {
         console.log(response);
         renderWeather(response);
     });
+    }
 });
 
 // Render the weather to the page
 function renderWeather(response) {
-    var cityName = $('#search-input').val();
+    // var cityName = $('#search-input').val();
+    var cityName = response.name;
     // Display city name, date, & weather icon
     $('#city-output').text(cityName + " (" + moment().format('M/D/YYYY) '));
     $('#wicon').attr('src', 'https://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
@@ -134,7 +157,6 @@ function renderWeather(response) {
         url: queryUVURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         var uvIndex = response.value;
         var uvOutput = $('#uv-output')
         uvOutput.text(uvIndex);
@@ -159,7 +181,6 @@ function renderWeather(response) {
         url: forecastURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         var nextForecast = response.list;
         renderForecast(nextForecast);
     });
@@ -191,7 +212,6 @@ function autoRenderWeather(response) {
         url: queryUVURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         var uvIndex = response.value;
         var uvOutput = $('#uv-output')
         uvOutput.text(uvIndex);
@@ -215,12 +235,12 @@ function autoRenderWeather(response) {
         url: forecastURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         var nextForecast = response.list;
         renderForecast(nextForecast);
     });
 }
 
+// Writes the 5 day forecast
 function renderForecast(nextForecast) {
     // $('#forecast').clear();
     
