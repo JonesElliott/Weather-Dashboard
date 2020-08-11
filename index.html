@@ -1,95 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Bootstrap Link -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-      crossorigin="anonymous"
-    />
-    <!-- Font Awesome Link -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <title>Weather Dashboard</title>
-  </head>
 
-  <body>
-    <!-- Page Header -->
-    <header class="text-center bg-dark text-white">
-      <h1>Weather Dashboard</h1>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bootstrap Link -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+  <!-- Font Awesome Link -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+  <title>Weather Dashboard</title>
+</head>
 
-    <div class="row">
-      <!-- City Search Area -->
-      <div id="search-div" class="col-md-2 mt-3 ml-5 bg-light">
-        <form id="search-form">
-          <div>
-            <label for="city-search">Search for a City:</label>
-          </div>
-          <div class="input-group mb-3">
-            <input
-              type="text"
-              id="search-input"
-              class="form-control"
-              placeholder="San Diego"
-              aria-label="City Name"
-              aria-describedby="button-addon2"
-              onkeydown="return event.key != 'Enter';"
-            />
-            <div class="input-group-append">
-              <button
-                class="btn btn-outline-dark bg-primary text-white fas fa-search"
-                type="button"
-                id="search-button"
-              ></button>
-            </div>
-          </div>
-          <div id="search-recent"></div>
-        </form>
-      </div>
+<body>
+  <!-- Page Header -->
+  <header class="text-center bg-dark text-white">
+    <h1>Weather Dashboard</h1>
+  </header>
 
-      <!-- Weather Results -->
-      <div id="weather-div" class="col-md-8 mt-3">
-        <div id="weather-today" class="border rounded border-muted">
-          <div class="container">
-            <div class="row">
-              <h1 id="city-output"></h1>
-              <img id="wicon" src="" alt="Weather Icon" />
-            </div>
-            <div>
-              <p id="temp-output"></p>
-            </div>
-            <div>
-              <p id="humidity-output"></p>
-            </div>
-            <div>
-              <p id="wind-output"></p>
-            </div>
-            <div class="row">
-              <p class="ml-3">UV Index:&nbsp</p>
-              <p id="uv-output" class="rounded"></p>
-            </div>
+  <div class="row">
+    <!-- City Search Area -->
+    <div id="search-div" class="col-md-2 mt-3 ml-5 bg-light">
+      <form id="search-form">
+        <div>
+          <label for="city-search">Search for a City:</label>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" id="search-input" class="form-control" placeholder="San Diego" aria-label="City Name"
+            aria-describedby="button-addon2" onkeydown="return event.key != 'Enter';" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-dark bg-primary text-white fas fa-search" type="button"
+              id="search-button"></button>
           </div>
         </div>
-        <div id="weather-5-day" class="mt-3 ml-1 container">
-          <h3>5-Day Forecast:</h3>
-          <div id="forecast" class="row"></div>
-        </div>
-      </div>
+        <div id="search-recent"></div>
+      </form>
     </div>
 
-    <!-- Link for JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="./script.js"></script>
+    <!-- Weather Results -->
+    <div id="weather-div" class="col-md-8 mt-3">
+      <div id="weather-today" class="border rounded border-muted">
+        <div class="container">
+          <div class="row">
+            <h1 id="city-output"></h1>
+            <img id="wicon" src="" alt="Weather Icon" />
+          </div>
+          <div>
+            <p id="temp-output"></p>
+          </div>
+          <div>
+            <p id="humidity-output"></p>
+          </div>
+          <div>
+            <p id="wind-output"></p>
+          </div>
+          <div class="row">
+            <p class="ml-3">UV Index:&nbsp</p>
+            <p id="uv-output" class="rounded"></p>
+          </div>
+        </div>
+      </div>
+      <div id="weather-5-day" class="mt-3 ml-1 container">
+        <h3>5-Day Forecast:</h3>
+        <div id="forecast" class="row"></div>
+      </div>
+    </div>
+  </div>
 
-  </body>
+  <!-- Link for JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="./script.js"></script>
+</body>
 
 </html>

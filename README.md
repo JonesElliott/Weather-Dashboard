@@ -8,25 +8,25 @@ This is a weather dashboard utilizing the [OpenWeather API](https://openweatherm
 
 ### Geolocation Request
 
-When the site is first loaded it retrieves the coordinates of the user through the navigator and geolocation properties ```javascript navigator.geolocation.getCurrentPosition(success, error, options);```. This prompts the user for a request to access their location.
+When the site is first loaded it retrieves the coordinates of the user through the navigator and geolocation properties ```navigator.geolocation.getCurrentPosition(success, error, options);```. This prompts the user for a request to access their location.
 
-![Geo Location Prompt](./Assets.location-request.PNG)
+![Geo Location Prompt](./Assets/location-request.PNG)
 
 If granted, their coordinates are retrieved and used in the ajax request to display the weather in their area. If geolocation is denied then a default city (Portland) is requested and displayed.
 
-![Default City Weather Dashboard](./Assets.default-dashboard.PNG)
+![Default City Weather Dashboard](./Assets/default-dashboard.PNG)
 
 ### Searching
 
 Using the search bar any city can he requested by name. The 5 most recent searches will be displayed under the search input. These are clickable allowing the user to retreive the weather for these locations again.
 
-![Search History List](./Assets.search-history.PNG)
+![Search History List](./Assets/search-history.PNG)
 
 ### Dynamically Displayed Information
 
 Information such as temperature, humidity, wind speed, and UV index are displayed when a city is searched. The UV index is highlighted different colors depending on the level, low, moderate, high, very high, and extreme.
 
-![UV Low](./Assets.uv-low.PNG) ![UV Moderate](./Assets.uv-moderate.PNG) ![UV High](./Assets.uv-high.PNG) ![UV Very High](./Assets.uv-very-high.PNG) ![UV Extreme](./Assets.uv-extreme.PNG)
+![UV Low](./Assets/uv-low.PNG) ![UV Moderate](./Assets/uv-moderate.PNG) ![UV High](./Assets/uv-high.PNG) ![UV Very High](./Assets/uv-very-high.PNG) ![UV Extreme](./Assets/uv-extreme.PNG)
 
 ## Credit
 
