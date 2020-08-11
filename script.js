@@ -23,6 +23,7 @@ function success(pos) {
         url: autoQueryURL,
         method: "GET",
     }).then(function (response) {
+        console.log(response);
         autoRenderWeather(response);
     });
 }
@@ -43,6 +44,7 @@ function error(err) {
         url: autoQueryURL,
         method: "GET",
     }).then(function (response) {
+        console.log(response);
         autoRenderWeather(response);
     });
 }
@@ -97,6 +99,7 @@ $('#search-button').on('click', function() {
         url: queryURL,
         method: "GET",
     }).then(function (response) {
+        console.log(response);
         renderWeather(response);
     });
 });
@@ -151,7 +154,7 @@ function renderWeather(response) {
         url: forecastURL,
         method: "GET",
     }).then(function (response) {
-        // console.log(response);
+        console.log(response);
         var nextForecast = response.list;
         renderForecast(nextForecast);
     });
@@ -183,6 +186,7 @@ function autoRenderWeather(response) {
         url: queryUVURL,
         method: "GET",
     }).then(function (response) {
+        console.log(response);
         var uvIndex = response.value;
         var uvOutput = $('#uv-output')
         uvOutput.text(uvIndex);
@@ -206,7 +210,7 @@ function autoRenderWeather(response) {
         url: forecastURL,
         method: "GET",
     }).then(function (response) {
-        // console.log(response);
+        console.log(response);
         var nextForecast = response.list;
         renderForecast(nextForecast);
     });
