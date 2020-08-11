@@ -31,6 +31,7 @@ function success(pos) {
 // Console log error if userlocation doesnt work
 function error(err) {
     // Default query request if user denies to share location
+    console.Log("Geo Request Denied: Default City Loaded");
 
     // We stand with you Portland
     var defaultLat = 45.52;
@@ -38,7 +39,9 @@ function error(err) {
 
     var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
     //Automatically build a query URL based on user's location when site is loaded.
-    var autoQueryURL = "https:\\api.openweathermap.org/data/2.5/weather?lat=" + defaultLat + "&lon=" + defaultLon + "&units=imperial&appid=" + apiKey;
+    var autoQueryURL = "http://api.openweathermap.org/data/2.5/weather?lat=" + defaultLat + "&lon=" + defaultLon + "&units=imperial&appid=" + apiKey;
+
+    console.log(autoQueryURL);
 
     $.ajax({
         url: autoQueryURL,
@@ -93,7 +96,7 @@ $('#search-button').on('click', function() {
     // console.log(recentSearch);
 
     // Building the query URL
-    var queryURL = "https:\\api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
 
     $.ajax({
         url: queryURL,
