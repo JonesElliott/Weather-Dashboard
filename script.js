@@ -7,6 +7,7 @@ var options = {
     maximumAge: 0
 };
 // If user's location is successfully recieved
+// Get the local weather based on  the user's coordinates
 function success(pos) {
     var crd = pos.coords;
 
@@ -14,7 +15,6 @@ function success(pos) {
     var userLat = pos.coords.latitude;
     var userLon = pos.coords.longitude;
 
-    // Get the local weather based on  the user's coordinates
     var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
     //Automatically build a query URL based on user's location when site is loaded.
     var autoQueryURL = "https:\\api.openweathermap.org/data/2.5/weather?lat=" + userLat + "&lon=" + userLon + "&units=imperial&appid=" + apiKey;
@@ -29,7 +29,22 @@ function success(pos) {
 
 // Console log error if userlocation doesnt work
 function error(err) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
+    // Default query request if user denies to share location
+
+    // We stand with you Portland
+    var defaultLat = 45.52;
+    var defaultLon = -122.68;
+
+    var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
+    //Automatically build a query URL based on user's location when site is loaded.
+    var autoQueryURL = "https:\\api.openweathermap.org/data/2.5/weather?lat=" + defaultLat + "&lon=" + defaultLon + "&units=imperial&appid=" + apiKey;
+
+    $.ajax({
+        url: autoQueryURL,
+        method: "GET",
+    }).then(function (response) {
+        autoRenderWeather(response);
+    });
 }
 
 // Send request for user's location
@@ -56,12 +71,24 @@ $('#search-button').on('click', function() {
     event.preventDefault();
     var cityName = $('#search-input').val();
     console.log(cityName);
-
+    
     recentSearch.push(cityName);
-    var recentCity = $('<h5>').attr('class', 'border bg-light text-center p-3').text(cityName);
-    $('#search-recent').prepend(recentCity);
+    if (recentSearch.length > 5) {
+        // recentSearch.push(cityName);
+        recentSearch.shift();
+    }
+
+    $('#search-recent').empty();
+
+    for (i = 0; i < recentSearch.length; i++) {
+        var recentCity = $('<h5>').attr('class', 'border bg-light text-center p-3').text(recentSearch[i]);
+        $('#search-recent').prepend(recentCity);
+    }
+
+    // var recentCity = $('<h5>').attr('class', 'border bg-light text-center p-3').text(cityName);
+    // $('#search-recent').prepend(recentCity);
     localStorage.setItem("recentSearch", JSON.stringify(recentSearch));
-    console.log(recentSearch);
+    // console.log(recentSearch);
 
     // Building the query URL
     var queryURL = "https:\\api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
@@ -105,15 +132,15 @@ function renderWeather(response) {
         uvOutput.text(uvIndex);
         // Change background color based on UV Index
         if (uvIndex < 3) {
-            uvOutput.attr('style', 'background-color: green;');
+            uvOutput.attr('style', 'background-color: green; color: white;');
         } else if (uvIndex < 6) {
             uvOutput.attr('style', 'background-color: yellow;');
         } else if (uvIndex < 8) {
             uvOutput.attr('style', 'background-color: orange;');
         } else if (uvIndex < 11) {
-            uvOutput.attr('style', 'background-color: red;');
+            uvOutput.attr('style', 'background-color: red; color: white;');
         } else {
-            uvOutput.attr('style', 'background-color: purple;');
+            uvOutput.attr('style', 'background-color: purple; color: white;');
         }
     });
 
@@ -169,7 +196,7 @@ function autoRenderWeather(response) {
         } else if (uvIndex < 11) {
             uvOutput.attr('style', 'background-color: red;')
         } else {
-            uvOutput.attr('style', 'background-color: purple;')
+            uvOutput.attr('style', 'background-color: purple; color: white;')
         }
     });
     // renderForecast();
