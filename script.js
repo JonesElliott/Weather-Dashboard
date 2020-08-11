@@ -31,7 +31,7 @@ function success(pos) {
 // Load default location and console log if user location doesn't work
 function error(err) {
     // Default query request if user denies to share location
-    console.Log("Geo Request Denied: Default City Loaded");
+    console.log("Geo Request Denied: Default City Loaded");
 
     // We stand with you Portland
     var defaultLat = 45.52;
@@ -74,6 +74,8 @@ for (i = 0; i < recentSearch.length; i++) {
 $('#search-button').on('click', function() {
     event.preventDefault();
     var cityName = $('#search-input').val();
+
+    // If there is no input, do nothing
     if (cityName === "") {
         return;
     }
@@ -108,6 +110,7 @@ $('#search-button').on('click', function() {
     });
 });
 
+// Search recently searched cities again
 $('button').on('click', function(event){
     event.preventDefault();
     var element = event.target;
@@ -116,7 +119,6 @@ $('button').on('click', function(event){
         return;
     } else {
     var cityName = $(this).text();
-    console.log(cityName);
     
     // Building the query URL
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
@@ -125,7 +127,6 @@ $('button').on('click', function(event){
         url: queryURL,
         method: "GET",
     }).then(function (response) {
-        console.log(response);
         renderWeather(response);
     });
     }
