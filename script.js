@@ -17,7 +17,7 @@ function success(pos) {
 
     var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
     //Automatically build a query URL based on user's location when site is loaded.
-    var autoQueryURL = "https:\\api.openweathermap.org/data/2.5/weather?lat=" + userLat + "&lon=" + userLon + "&units=imperial&appid=" + apiKey;
+    var autoQueryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + userLat + "&lon=" + userLon + "&units=imperial&appid=" + apiKey;
 
     $.ajax({
         url: autoQueryURL,
@@ -39,7 +39,7 @@ function error(err) {
 
     var apiKey = "4471d8a288b1158a16e4a8e8f56a3e35";
     //Automatically build a query URL based on user's location when site is loaded.
-    var autoQueryURL = "http://api.openweathermap.org/data/2.5/weather?lat=" + defaultLat + "&lon=" + defaultLon + "&units=imperial&appid=" + apiKey;
+    var autoQueryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + defaultLat + "&lon=" + defaultLon + "&units=imperial&appid=" + apiKey;
 
     console.log(autoQueryURL);
 
@@ -98,6 +98,8 @@ $('#search-button').on('click', function() {
     // Building the query URL
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=" + apiKey;
 
+    console.log(queryURL);
+
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -112,7 +114,7 @@ function renderWeather(response) {
     var cityName = $('#search-input').val();
     // Display city name, date, & weather icon
     $('#city-output').text(cityName + " (" + moment().format('M/D/YYYY) '));
-    $('#wicon').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
+    $('#wicon').attr('src', 'https://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
 
     // Display the current temperature
     $('#temp-output').text('Temperature: ' + response.main.temp + String.fromCharCode(176) + "F");
@@ -126,7 +128,7 @@ function renderWeather(response) {
     var cityLon  = response.coord.lon;
 
     // Building query URL to retrieve UV Index based on city searched
-    var queryUVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + cityLat + "&lon=" + cityLon;
+    var queryUVURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + cityLat + "&lon=" + cityLon;
 
     $.ajax({
         url: queryUVURL,
@@ -151,7 +153,7 @@ function renderWeather(response) {
     });
 
     // renderForecast();
-    var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
+    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
     $('#forecast').empty();
     $.ajax({
         url: forecastURL,
@@ -169,7 +171,7 @@ function autoRenderWeather(response) {
     $('input').attr('placeholder', userCity);
     // Display city name, date, & weather icon
     $('#city-output').text(userCity + " (" + moment().format('M/D/YYYY) '));
-    $('#wicon').attr('src', 'http://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
+    $('#wicon').attr('src', 'https://openweathermap.org/img/w/' + response.weather[0].icon + '.png');
 
     // Display the current temperature
     $('#temp-output').text('Temperature: ' + response.main.temp + String.fromCharCode(176) + "F");
@@ -183,7 +185,7 @@ function autoRenderWeather(response) {
     var cityLon  = response.coord.lon;
 
     // Building query URL to retrieve UV Index based on city searched
-    var queryUVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + cityLat + "&lon=" + cityLon;
+    var queryUVURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + cityLat + "&lon=" + cityLon;
 
     $.ajax({
         url: queryUVURL,
@@ -207,7 +209,7 @@ function autoRenderWeather(response) {
         }
     });
     // renderForecast();
-    var forecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + userCity + "&units=imperial&appid=" + apiKey;
+    var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + userCity + "&units=imperial&appid=" + apiKey;
 
     $.ajax({
         url: forecastURL,
@@ -226,7 +228,7 @@ function renderForecast(nextForecast) {
         // Get date for current day iteration
         var forecastDate = moment().add((i + 1), 'days').format('M/D/YYYY');;
         // Get weather icon for current day iteration
-        var nextIcon = 'http://openweathermap.org/img/w/' + nextForecast[i].weather[0].icon + '.png';
+        var nextIcon = 'https://openweathermap.org/img/w/' + nextForecast[i].weather[0].icon + '.png';
         // Get temperature  for current day iteration
         var nextTemp = nextForecast[i].main.temp;
         // Get Humidity for current day iteration
