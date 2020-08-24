@@ -1,4 +1,4 @@
-# Weather-Dashboard
+# Weather Dashboard
 [Deployed Site](https://joneselliott.github.io/Weather-Dashboard/)
 
 ## About
